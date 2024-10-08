@@ -1,11 +1,31 @@
 import React from 'react';
 import { Monster } from '../types';
+import { Flame, Droplet, Mountain, Wind, Sun, Moon } from 'lucide-react';
 
 interface MonsterDisplayProps {
   monster: Monster;
   isPlayer: boolean;
   animationState: 'idle' | 'attack' | 'damage';
 }
+
+const TypeIcon: React.FC<{ type: string }> = ({ type }) => {
+  switch (type) {
+    case 'Fire':
+      return <Flame className="text-red-500" size={16} />;
+    case 'Water':
+      return <Droplet className="text-blue-500" size={16} />;
+    case 'Earth':
+      return <Mountain className="text-brown-500" size={16} />;
+    case 'Air':
+      return <Wind className="text-gray-300" size={16} />;
+    case 'Light':
+      return <Sun className="text-yellow-500" size={16} />;
+    case 'Dark':
+      return <Moon className="text-purple-500" size={16} />;
+    default:
+      return null;
+  }
+};
 
 const MonsterDisplay: React.FC<MonsterDisplayProps> = ({
   monster,
@@ -14,14 +34,14 @@ const MonsterDisplay: React.FC<MonsterDisplayProps> = ({
 }) => (
   <div className={`flex flex-col items-center`}>
     <div
-      className={`bg-gray-800 bg-opacity-80 rounded p-1 mb-1 w-full`}
+      className={`bg-gray-800 bg-opacity-80 rounded p-1 mb-1 inline-block`}
     >
-      <div className="flex justify-between items-center">
+      <div className="flex items-center space-x-2">
         <h3 className="font-bold text-green-400 text-xs sm:text-sm">{monster.name}</h3>
-        <span className="text-xs text-green-300 ml-1">{monster.type}</span>
+        <TypeIcon type={monster.type} />
       </div>
-      <div className="flex items-center">
-        <div className="w-16 sm:w-20 md:w-24 bg-gray-700 rounded-full h-2">
+      <div className="flex items-center mt-1">
+        <div className="w-24 sm:w-32 bg-gray-700 rounded-full h-2">
           <div
             className="bg-green-500 h-2 rounded-full transition-all duration-500 ease-in-out"
             style={{ width: `${(monster.hp / monster.maxHp) * 100}%` }}
