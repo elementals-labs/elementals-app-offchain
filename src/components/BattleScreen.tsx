@@ -18,7 +18,10 @@ const BattleScreen: React.FC<BattleScreenProps> = ({ gameState, onBattleEnd, onU
   const [showSwitchOptions, setShowSwitchOptions] = useState(false);
   const [forceSwitch, setForceSwitch] = useState(false);
   const [animationState, setAnimationState] = useState<'idle' | 'playerAttack' | 'aiAttack' | 'playerDamage' | 'aiDamage'>('idle');
-
+  const [arenaName, setArenaName] = useState("Battle Arena");
+  const handleArenaSelect = (name: string) => {
+    setArenaName(name);
+  };
   useEffect(() => {
     if (!isPlayerTurn && !forceSwitch) {
       handleAITurn();
@@ -195,13 +198,14 @@ const BattleScreen: React.FC<BattleScreenProps> = ({ gameState, onBattleEnd, onU
     <div className="p-4 max-w-4xl mx-auto bg-gray-900 text-green-300">
       <div className="flex justify-between items-center mb-4">
         <TeamStatus player={gameState.player1} />
-        <h2 className="text-2xl font-bold text-center text-green-400">Battle Arena</h2>
+        <h2 className="text-2xl font-bold text-center text-green-400">{arenaName}</h2>
         <TeamStatus player={gameState.player2} />
       </div>
       <BattleArena
         playerMonster={gameState.activeMonsters[0]}
         aiMonster={gameState.activeMonsters[1]}
         animationState={animationState}
+        onArenaSelect={handleArenaSelect}
       />
       {!showSwitchOptions && !forceSwitch && (
         <>

@@ -6,25 +6,35 @@ interface BattleArenaProps {
   playerMonster: Monster;
   aiMonster: Monster;
   animationState: 'idle' | 'playerAttack' | 'aiAttack' | 'playerDamage' | 'aiDamage';
+  onArenaSelect: (arenaName: string) => void;
+}
+interface ArenaInfo {
+  name: string;
+  image: string;
 }
 
-const battleBackgrounds = [
-  '/img/battleArena1.webp',
-  '/img/battleArena2.webp',
-  '/img/battleArena3.webp'
+const battleArenas: ArenaInfo[] = [
+  { name: "City Arena", image: '/img/battleArena1.webp' },
+  { name: "Pond Arena", image: '/img/battleArena2.webp' },
+  { name: "Forest Arena", image: '/img/battleArena3.webp' }
 ];
 
-const BattleArena: React.FC<BattleArenaProps> = ({ playerMonster, aiMonster, animationState }) => {
-  const randomBackground = useMemo(() => {
-    const randomIndex = Math.floor(Math.random() * battleBackgrounds.length);
-    return battleBackgrounds[randomIndex];
+const BattleArena: React.FC<BattleArenaProps> = ({ playerMonster, aiMonster, animationState, onArenaSelect }) => {
+  const randomArena = useMemo(() => {
+    const randomIndex = Math.floor(Math.random() * battleArenas.length);
+    return battleArenas[randomIndex];
   }, []);
+
+// Call onArenaSelect when the component mounts
+React.useEffect(() => {
+  onArenaSelect(randomArena.name);
+}, [onArenaSelect, randomArena.name]);
 
   return (
     <div className="relative mb-8 rounded-lg overflow-hidden" style={{ height: '320px' }}>
-      <div 
+       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{backgroundImage: `url('${randomBackground}')`}}
+        style={{backgroundImage: `url('${randomArena.image}')`}}
       ></div>
       <div className="relative z-10 flex justify-between items-stretch h-full px-4 sm:px-8 md:px-16 max-w-3xl mx-auto">
         <div className="w-1/2 flex justify-start items-end pb-4 sm:pb-8">
