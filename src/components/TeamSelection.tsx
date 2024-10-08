@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Monster } from '../types';
 import MonsterCard from './MonsterCard';
 import WalletButton from './WalletButton';
+import LearnModal from './LearnModal';
 import { monsters } from '../data/monsters';
 
 interface TeamSelectionProps {
@@ -11,6 +12,7 @@ interface TeamSelectionProps {
 const TeamSelection: React.FC<TeamSelectionProps> = ({ onTeamSelected }) => {
   const [selectedMonsters, setSelectedMonsters] = useState<Monster[]>([]);
   const [playerAddress, setPlayerAddress] = useState<string | null>(null);
+  const [isLearnModalOpen, setIsLearnModalOpen] = useState(false);
 
   const handleMonsterSelect = (monster: Monster) => {
     if (selectedMonsters.includes(monster)) {
@@ -30,6 +32,10 @@ const TeamSelection: React.FC<TeamSelectionProps> = ({ onTeamSelected }) => {
     setPlayerAddress(address);
   }, []);
 
+  const handleLearnClick = () => {
+    setIsLearnModalOpen(true);
+  };
+
   return (
     <div className="p-4 max-w-4xl mx-auto bg-gray-900 text-green-300 min-h-screen flex flex-col">
       <h2 className="text-3xl font-bold mb-2 text-center text-green-400">Select Your Team</h2>
@@ -47,16 +53,25 @@ const TeamSelection: React.FC<TeamSelectionProps> = ({ onTeamSelected }) => {
           />
         ))}
       </div>
-      <div className="fixed bottom-0 left-0 right-0 bg-gray-800 p-4 flex justify-center items-center space-x-4">
-        <WalletButton onAddressChange={handleAddressChange} />
-        <button
-          className="bg-green-600 text-white px-6 py-2 rounded disabled:bg-gray-600 disabled:text-gray-400 hover:bg-green-500 transition-colors"
-          onClick={handleConfirmTeam}
-          disabled={selectedMonsters.length !== 3}
-        >
-          Confirm Team ({selectedMonsters.length}/3)
-        </button>
+      <div className="fixed bottom-0 left-0 right-0 bg-gray-800 p-4">
+        <div className="flex justify-center items-center max-w-4xl mx-auto space-x-4">
+          <WalletButton onAddressChange={handleAddressChange} />
+          <button
+            className="bg-green-600 text-white px-6 py-2 rounded disabled:bg-green-600 disabled:text-gray-400 hover:bg-green-500 transition-colors"
+            onClick={handleConfirmTeam}
+            disabled={selectedMonsters.length !== 3}
+          >
+            Confirm Team ({selectedMonsters.length}/3)
+          </button>
+          <button
+            className="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-500 transition-colors"
+            onClick={handleLearnClick}
+          >
+            Learn
+          </button>
+        </div>
       </div>
+      <LearnModal isOpen={isLearnModalOpen} onClose={() => setIsLearnModalOpen(false)} />
     </div>
   );
 };

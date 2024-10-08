@@ -25,15 +25,15 @@ const BattleEndScreen: React.FC<BattleEndScreenProps> = ({ winner, onPlayAgain }
         </p>
         <div className="mb-6">
           <h3 className="text-xl font-bold mb-4 text-green-400">Winning Team</h3>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="flex justify-center gap-4">
             {winner.team.map((monster: Monster) => (
-              <div key={monster.id} className="bg-gray-700 p-2 rounded">
+              <div key={monster.id} className="bg-gray-700 p-2 rounded w-24">
                 <img
                   src={`/img/${monster.name.toLowerCase()}.png`}
                   alt={monster.name}
-                  className="w-16 h-16 mx-auto mb-2"
+                  className="w-16 h-16 mx-auto mb-2 object-contain"
                 />
-                <p className="text-sm font-bold">{monster.name}</p>
+                <p className="text-sm font-bold truncate">{monster.name}</p>
                 <p className="text-xs">HP: {monster.hp}/{monster.maxHp}</p>
               </div>
             ))}

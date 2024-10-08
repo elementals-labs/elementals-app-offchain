@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Monster } from '../types';
 import MonsterDisplay from './MonsterDisplay';
 
@@ -8,29 +8,42 @@ interface BattleArenaProps {
   animationState: 'idle' | 'playerAttack' | 'aiAttack' | 'playerDamage' | 'aiDamage';
 }
 
-const BattleArena: React.FC<BattleArenaProps> = ({ playerMonster, aiMonster, animationState }) => (
-  <div className="relative mb-8 rounded-lg overflow-hidden" style={{ height: '320px' }}>
-    <div 
-      className="absolute inset-0 bg-cover bg-center"
-      style={{backgroundImage: "url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')"}}
-    ></div>
-    <div className="relative z-10 flex justify-between h-full p-4">
-      <div className="self-end">
-        <MonsterDisplay 
-          monster={playerMonster} 
-          isPlayer={true} 
-          animationState={animationState === 'playerAttack' ? 'attack' : animationState === 'playerDamage' ? 'damage' : 'idle'}
-        />
-      </div>
-      <div className="self-start">
-        <MonsterDisplay 
-          monster={aiMonster} 
-          isPlayer={false} 
-          animationState={animationState === 'aiAttack' ? 'attack' : animationState === 'aiDamage' ? 'damage' : 'idle'}
-        />
+const battleBackgrounds = [
+  '/img/battleArena1.webp',
+  '/img/battleArena2.webp',
+  '/img/battleArena3.webp'
+];
+
+const BattleArena: React.FC<BattleArenaProps> = ({ playerMonster, aiMonster, animationState }) => {
+  const randomBackground = useMemo(() => {
+    const randomIndex = Math.floor(Math.random() * battleBackgrounds.length);
+    return battleBackgrounds[randomIndex];
+  }, []);
+
+  return (
+    <div className="relative mb-8 rounded-lg overflow-hidden" style={{ height: '320px' }}>
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{backgroundImage: `url('${randomBackground}')`}}
+      ></div>
+      <div className="relative z-10 flex justify-between items-stretch h-full px-4 sm:px-8 md:px-16 max-w-3xl mx-auto">
+        <div className="w-1/2 flex justify-start items-end pb-4 sm:pb-8">
+          <MonsterDisplay 
+            monster={playerMonster} 
+            isPlayer={true} 
+            animationState={animationState === 'playerAttack' ? 'attack' : animationState === 'playerDamage' ? 'damage' : 'idle'}
+          />
+        </div>
+        <div className="w-1/2 flex justify-end items-end pb-8 sm:pb-12">
+          <MonsterDisplay 
+            monster={aiMonster} 
+            isPlayer={false} 
+            animationState={animationState === 'aiAttack' ? 'attack' : animationState === 'aiDamage' ? 'damage' : 'idle'}
+          />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default BattleArena;

@@ -14,7 +14,7 @@ const MoveSelection: React.FC<MoveSelectionProps> = ({ moves, onMoveSelect, disa
       {moves.map((move, index) => (
         <button
           key={index}
-          className={`p-2 rounded bg-gray-700 hover:bg-green-500 transition-colors ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`p-2 rounded bg-gray-700 hover:bg-purple-500 transition-colors ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           onClick={() => onMoveSelect(move)}
           disabled={disabled}
         >
