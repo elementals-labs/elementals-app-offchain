@@ -16,7 +16,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onPlayClick }) => {
         className="absolute inset-0 w-full h-full object-cover"
       />
       <div className="relative z-10 flex flex-col items-center justify-center h-full">
-        <div className="flex space-x-4 mt-20">
+        <div className="flex space-x-4 mt-40">
           <button
             onClick={onPlayClick}
             className="bg-green-600 text-white px-6 py-2 rounded text-xl font-bold hover:bg-green-500 transition-colors w-40"
